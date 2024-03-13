@@ -15,11 +15,9 @@
 #define TPIU       0x00180000
 #define OCM_BASE   0x00FFFC0000 // on chip memeory
 
-//const uint32_t BUFFER_SIZE = 1024 * 8;  // 8kB
-#define BUFFER_SIZE (1024 * 8)
+#define BUFFER_SIZE (1024 * 8)  // 8kB
 
 enum component {
-
 	etm_0_comp,
 	funnel_1_comp,
 	funnel_2_comp,

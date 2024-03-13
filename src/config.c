@@ -3,6 +3,7 @@
 #include "funnel.h"
 #include "tmc.h"
 #include "replicator.h"
+#include "tpiu.h"
 #include "etm.h"
 
 void config_components()
@@ -19,6 +20,9 @@ void config_components()
 	uint32_t *funnel[] = {NULL, funnel_1, funnel_2};
 	funnel_config(funnel);
 
+	tpiu_config(tpiu);
+	replicator_config(replicator);
+	
 	uint32_t *tmc[] = {tmc_1, tmc_2, tmc_3};
 	tmc_config(tmc);
 	
