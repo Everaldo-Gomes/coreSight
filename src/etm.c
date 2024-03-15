@@ -52,10 +52,7 @@ void etm_is_ready(uint32_t *etm)
 {
 	// status
 	volatile uint32_t *reg = get_register_addr(etm, 0x00C);
-	uint32_t ready = 0;
-
-	while(!ready)
-		ready = *reg & (1 << 1) ? 1 : 0;
+	while((*reg & (1 << 1)) == 0);
 }
 
 void etm_trace_config(uint32_t *etm)

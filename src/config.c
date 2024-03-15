@@ -22,10 +22,10 @@ void config_components()
 	
 	tpiu_config(tpiu);
 	replicator_config(replicator);
-	
-	uint32_t *etm[] = {etm_0};
-	etm_config(etm);
-
+    
 	uint32_t *tmc[] = {tmc_1, tmc_2, tmc_3};
 	tmc_config(tmc);
+
+	uint32_t *etm[] = {etm_0};
+	etm_config(etm);
 }
