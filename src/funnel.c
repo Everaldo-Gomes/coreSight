@@ -6,10 +6,10 @@
 void funnel_config(uint32_t *funnel[])
 {
 	funnel_unlock(funnel[1]);
-	funnel_config_port(funnel[1], 0xF, 0x0);
+	funnel_config_port(funnel[1], 0xFF, 0x0);
 
 	funnel_unlock(funnel[2]);
-	funnel_config_port(funnel[2], 0x1, 0x0);
+	funnel_config_port(funnel[2], 0xFF, 0x0);
 }
 
 void funnel_unlock(uint32_t *funnel)

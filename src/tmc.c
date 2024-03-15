@@ -3,33 +3,19 @@
 #include "common.h"
 
 void tmc_config(uint32_t *tmc[])
-{	
-	for (uint32_t i = 0; i < 2; i++)
-	{
-		tmc_unlock(tmc[i]);
-		tmc_disable(tmc[i]);
-		tmc_set_mode(tmc[i], hardware);
-		tmc_buffer_level_water_mark(tmc[i]);
-		tmc_formatter_flush_control(tmc[i], 0, 0x3);
-		tmc_formatter_flush_control(tmc[i], 6, 0x1);
-		tmc_formatter_flush_control(tmc[i], 12, 0x1);
-		tmc_formatter_flush_control(tmc[i], 13, 0x1);
+{
 
-		//volatile uint32_t *reg = get_register_addr(tmc[i], 0x304);
-		//*reg &= ~(1 << 14);
-		
-		tmc_enable(tmc[i]);
-	}
-	
+	tmc_unlock(tmc[0]);
+	tmc_unlock(tmc[1]);
 	tmc_unlock(tmc[2]);
-	tmc_disable(tmc[2]);
-	tmc_set_mode(tmc[2], circular);
 	
-	tmc_formatter_flush_control(tmc[2], 0, 0x1);
-	tmc_formatter_flush_control(tmc[2], 1, 0x1);
-	tmc_formatter_flush_control(tmc[2], 8, 0x1);
-	tmc_formatter_flush_control(tmc[2], 9, 0x1);
-	tmc_formatter_flush_control(tmc[2], 12, 0x1);
+	tmc_disable(tmc[0]); 
+	tmc_disable(tmc[1]); 
+	tmc_disable(tmc[2]);
+	
+	tmc_set_mode(tmc[0], hardware);
+	tmc_set_mode(tmc[1], hardware);
+	tmc_set_mode(tmc[2], circular);
 
 	tmc_set_axi(tmc[2], 0xF);
 	tmc_ram_set_size(tmc[2], BUFFER_SIZE);
@@ -37,7 +23,25 @@ void tmc_config(uint32_t *tmc[])
 	tmc_set_ram_read_ptr(tmc[2], OCM_BASE);
 	tmc_set_ram_write_ptr(tmc[2], OCM_BASE);
 
-	tmc_enable(tmc[2]);	
+	/* tmc_formatter_flush_control(tmc[0], 0, 0x3); */
+	/* tmc_formatter_flush_control(tmc[0], 6, 0x1); */
+	/* tmc_formatter_flush_control(tmc[0], 12, 0x1); */
+	/* tmc_formatter_flush_control(tmc[0], 13, 0x1); */
+	
+	/* tmc_formatter_flush_control(tmc[1], 0, 0x3); */
+	/* tmc_formatter_flush_control(tmc[1], 6, 0x1); */
+	/* tmc_formatter_flush_control(tmc[1], 12, 0x1); */
+	/* tmc_formatter_flush_control(tmc[1], 13, 0x1); */
+
+	/* tmc_formatter_flush_control(tmc[2], 0, 0x1); */
+	/* tmc_formatter_flush_control(tmc[2], 1, 0x1); */
+	/* tmc_formatter_flush_control(tmc[2], 8, 0x1); */
+	/* tmc_formatter_flush_control(tmc[2], 9, 0x1); */
+	/* tmc_formatter_flush_control(tmc[2], 12, 0x1); */
+	
+	tmc_enable(tmc[0]);
+	tmc_enable(tmc[1]);
+	tmc_enable(tmc[2]);
 }
 
 void tmc_unlock(uint32_t *tmc)

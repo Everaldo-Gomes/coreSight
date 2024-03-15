@@ -49,21 +49,16 @@ void dump_buffer(uint64_t buffer_addr, uint32_t buffer_size)
 	uint32_t *buffer_ptr = get_buffer_ptr(buffer_addr, buffer_size);
 	uint32_t *buffer_base_ptr = buffer_ptr;
 
-	int frame = 1;
+
     for(uint32_t i = 0; i < buffer_size / 4; i++)
 	{
-		fprintf(trace_file, "0x%08X\t", *buffer_ptr);
-		fprintf(trace_file, "0x%08X\n",  buffer_ptr);
+		fprintf(trace_file, "0x%08X\n", *buffer_ptr);
 		fwrite((void *)buffer_ptr, sizeof(uint32_t), 1, trace_file_dat);
-		buffer_ptr++;
 
-		if (frame == 4)
-		{
+		if (*buffer_ptr == 0xFFFFFFFF)
 			fprintf(trace_file, "\n");
-			frame = 0;
-		}
-		
-		frame++;
+
+		buffer_ptr++;
 	}
 	
     fclose(trace_file);
