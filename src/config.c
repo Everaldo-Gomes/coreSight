@@ -19,13 +19,13 @@ void config_components()
 
 	uint32_t *funnel[] = {NULL, funnel_1, funnel_2};
 	funnel_config(funnel);
-
+	
 	tpiu_config(tpiu);
 	replicator_config(replicator);
 	
-	uint32_t *tmc[] = {tmc_1, tmc_2, tmc_3};
-	tmc_config(tmc);
-	
 	uint32_t *etm[] = {etm_0};
 	etm_config(etm);
+
+	uint32_t *tmc[] = {tmc_1, tmc_2, tmc_3};
+	tmc_config(tmc);
 }

@@ -13,7 +13,7 @@ void etm_config(uint32_t *etm[])
 	etm_stall(etm[0]);
 	etm_global_timestamp_control(etm[0]);
 	etm_sync_period(etm[0], 0x0);
-	etm_set_id(etm[0], 0x1);
+	etm_set_id(etm[0], 0x7);
 	etm_view_isnt_main_control(etm[0]);
 	etm_view_inst_include_exclude_control(etm[0]);	
 	etm_view_inst_start_stop_control(etm[0]);

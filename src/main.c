@@ -1,4 +1,5 @@
 #include <stdio.h>
+
 #include "config.h"
 #include "buffer.h"
 #include "zcu.h"
@@ -10,17 +11,13 @@ volatile uint32_t *reg;
 void debug_inf()
 {
 	uint32_t *tmc = tmc_3;
-	
-	// write
-	reg = get_register_addr(tmc, 0x010);
-	print_register_info(reg);
-
-	// read
-	reg = get_register_addr(tmc, 0x014);
-	print_register_info(reg);
 
 	// status
 	reg = get_register_addr(tmc, 0x00C);
+	print_register_info(reg);
+
+    // RAM read 
+	reg = get_register_addr(tmc, 0x010);
 	print_register_info(reg);
 }
 
@@ -39,26 +36,8 @@ int main(int argc, char* argv[])
 	clear_buffer(OCM_BASE, BUFFER_SIZE);
 	config_components();
 	
-	printf("Test val: %d\n", test(10));	
-
-
-	
-	// control disable
-	reg = get_register_addr(tmc_1, 0x20);
-	*reg = 0x0;
-	reg = get_register_addr(tmc_2, 0x20);
-	*reg = 0x0;
-
-	// status
-	reg = get_register_addr(tmc_3, 0x00C);	
-	while((*reg & (1 << 2)) != 0);
-
-	// control disable
-	reg = get_register_addr(tmc_3, 0x20);
-	*reg = 0x0;
-
-	
-	
+	printf("Test val: %d\n", test(10));
+				
 	dump_buffer(OCM_BASE, BUFFER_SIZE);
 	debug_inf();
    

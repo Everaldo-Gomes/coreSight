@@ -3,7 +3,7 @@
 #include "common.h"
 
 void tmc_config(uint32_t *tmc[])
-{
+{	
 	for (uint32_t i = 0; i < 2; i++)
 	{
 		tmc_unlock(tmc[i]);
@@ -11,29 +11,29 @@ void tmc_config(uint32_t *tmc[])
 		tmc_set_mode(tmc[i], hardware);
 		tmc_formatter_flush_control(tmc[i], 0, 0x3);
 		tmc_buffer_level_water_mark(tmc[i]);
-		tmc_enable(tmc[i]);
-		tmc_formatter_flush_control(tmc[i], 12, 0x1);
 		tmc_formatter_flush_control(tmc[i], 6, 0x1);
-		tmc_is_ready(tmc[i], 0);
+		tmc_formatter_flush_control(tmc[i], 12, 0x1);
+		tmc_formatter_flush_control(tmc[i], 13, 0x1);
+		tmc_enable(tmc[i]);
 	}
-		
+	
 	tmc_unlock(tmc[2]);
 	tmc_disable(tmc[2]);
 	tmc_set_mode(tmc[2], circular);
+	
 	tmc_formatter_flush_control(tmc[2], 0, 0x1);
 	tmc_formatter_flush_control(tmc[2], 1, 0x1);
 	tmc_formatter_flush_control(tmc[2], 8, 0x1);
 	tmc_formatter_flush_control(tmc[2], 9, 0x1);
 	tmc_formatter_flush_control(tmc[2], 12, 0x1);
 
-	
 	tmc_set_axi(tmc[2], 0xF);
 	tmc_ram_set_size(tmc[2], BUFFER_SIZE);
 	tmc_set_data_buffer(tmc[2], OCM_BASE);
 	tmc_set_ram_read_ptr(tmc[2], OCM_BASE);
 	tmc_set_ram_write_ptr(tmc[2], OCM_BASE);
-	
-	tmc_enable(tmc[2]);
+
+	//tmc_enable(tmc[2]);	
 }
 
 void tmc_unlock(uint32_t *tmc)
@@ -48,7 +48,7 @@ void tmc_enable(uint32_t *tmc)
 	// control
 	volatile uint32_t *reg = get_register_addr(tmc, 0x20);
 	*reg = 0x1;
-	tmc_is_ready(tmc, 0);
+	tmc_is_ready(tmc);
 }
 
 void tmc_disable(uint32_t *tmc)
@@ -56,14 +56,14 @@ void tmc_disable(uint32_t *tmc)
 	// control
 	volatile uint32_t *reg = get_register_addr(tmc, 0x20);
 	*reg = 0x0;
-	//tmc_is_ready(tmc, 1);
+	tmc_is_ready(tmc);
 }
 
-void tmc_is_ready(uint32_t *tmc, uint32_t bit_is_set)
+void tmc_is_ready(uint32_t *tmc)
 {
 	// status
-	volatile uint32_t *reg = get_register_addr(tmc, 0x00C);	
-	while((*reg & (1 << 2)) != bit_is_set);
+	volatile uint32_t *reg = get_register_addr(tmc, 0x00C);
+	while((*reg & (1 << 2)) != 0 << 2);
 }
 
 void tmc_set_mode(uint32_t *tmc, uint32_t mode)
@@ -92,18 +92,6 @@ void tmc_set_trigger_counter(uint32_t* tmc)
 	*reg = 0xF;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 void tmc_set_axi(uint32_t *tmc, int burst_len)
 {
 	// AXI control
@@ -116,9 +104,7 @@ void tmc_set_axi(uint32_t *tmc, int burst_len)
 void tmc_ram_set_size(uint32_t *tmc, uint32_t ram_size)
 {
     if (ram_size > (1024 * 8))
-	{
 		printf("WARNING: TMC RAM set size is greater than 8KB\n");		
-	}
 
 	// RAM size
 	volatile uint32_t *reg = get_register_addr(tmc, 0x004);
