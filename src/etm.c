@@ -34,16 +34,16 @@ void etm_config(uint32_t *etm[])
 	etm_set_stall(etm[0], 0x0);
 
 	// writing to OCM
-	int mem_fd = open("/dev/mem", O_RDWR | O_SYNC);
-    uint32_t *ms_buff = (uint32_t *)mmap(0, getpagesize(), PROT_READ | PROT_WRITE, MAP_SHARED, mem_fd, OCM_BASE);
+	/* int mem_fd = open("/dev/mem", O_RDWR | O_SYNC); */
+    /* uint32_t *ms_buff = (uint32_t *)mmap(0, getpagesize(), PROT_READ | PROT_WRITE, MAP_SHARED, mem_fd, OCM_BASE); */
 	
-	uint32_t ms_size = 1000;
+	/* uint32_t ms_size = 1000; */
 
-	extern uint32_t *tmc_2;
-	uint32_t *ms_ptr = get_register_addr(tmc_2, 0x010); //RAM Read Data Register
+	/* extern uint32_t *tmc_2; */
+	/* uint32_t *ms_ptr = get_register_addr(tmc_2, 0x010); //RAM Read Data Register */
 
-    for (uint32_t i = 0; i < ms_size; ++i)
-		ms_buff[2 + i] = ms_ptr[i];
+    /* for (uint32_t i = 0; i < ms_size; ++i) */
+	/* 	ms_buff[2 + i] = ms_ptr[i]; */
 
 	etm_enable(etm[0]);
 }

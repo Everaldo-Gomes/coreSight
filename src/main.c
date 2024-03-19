@@ -23,13 +23,12 @@ int main(int argc, char* argv[])
 	config_components();
 
 	printf("Test val: %d\n", test(10));
-	printf("Test val: %d\n", test(20));
-	printf("Test val: %d\n", test(30));
 	
+
+	etm_disable(etm_0);
 	/* tmc_disable(tmc_1); */
 	/* tmc_disable(tmc_2); */
 	/* tmc_disable(tmc_3); */
-	etm_disable(etm_0);
 	
 	dump_buffer(OCM_BASE, BUFFER_SIZE);
    
