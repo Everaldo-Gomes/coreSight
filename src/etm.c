@@ -12,40 +12,30 @@
 
 void etm_config(uint32_t *etm[])
 {
-	etm_unlock(etm[0]);
-	etm_disable(etm[0]);
+	for (uint32_t i = 0; i < 1; i++)
+	{
+		etm_unlock(etm[i]);
+		etm_disable(etm[i]);
 	
-	// reset
-	etm_trace_config(etm[0]);
-	etm_event_control_0(etm[0]);
-	etm_event_control_1(etm[0]);
-	etm_stall(etm[0]);
-	etm_sync_period(etm[0], 0b10100);
-	etm_set_id(etm[0], 0x1);
-	etm_global_timestamp_control(etm[0]);
-	etm_view_isnt_main_control(etm[0]);
-	etm_view_inst_include_exclude_control(etm[0]);
-	etm_view_inst_start_stop_control(etm[0]);
-	etm_external_input_select(etm[0]);
-	etm_resource_selection_control(etm[0]);
-	etm_address_comparator_value(etm[0]);
-	etm_context_id_comparator_value(etm[0]);
-	etm_context_id_tracing(etm[0]);
-	etm_set_stall(etm[0], 0x0);
-
-	// writing to OCM
-	/* int mem_fd = open("/dev/mem", O_RDWR | O_SYNC); */
-    /* uint32_t *ms_buff = (uint32_t *)mmap(0, getpagesize(), PROT_READ | PROT_WRITE, MAP_SHARED, mem_fd, OCM_BASE); */
-	
-	/* uint32_t ms_size = 1000; */
-
-	/* extern uint32_t *tmc_2; */
-	/* uint32_t *ms_ptr = get_register_addr(tmc_2, 0x010); //RAM Read Data Register */
-
-    /* for (uint32_t i = 0; i < ms_size; ++i) */
-	/* 	ms_buff[2 + i] = ms_ptr[i]; */
-
-	etm_enable(etm[0]);
+		// reset
+		etm_trace_config(etm[i]);
+		etm_event_control_0(etm[i]);
+		etm_event_control_1(etm[i]);
+		etm_stall(etm[i]);
+		etm_sync_period(etm[i], 0b10100);
+		etm_set_id(etm[i], i+1);
+		etm_global_timestamp_control(etm[i]);
+		etm_view_isnt_main_control(etm[i]);
+		etm_view_inst_include_exclude_control(etm[i]);
+		etm_view_inst_start_stop_control(etm[i]);
+		etm_external_input_select(etm[i]);
+		etm_resource_selection_control(etm[i]);
+		etm_address_comparator_value(etm[i]);
+		etm_context_id_comparator_value(etm[i]);
+		etm_context_id_tracing(etm[i]);
+		etm_set_stall(etm[i], 0x0);
+		etm_enable(etm[i]);
+	}
 }
 
 void etm_unlock(uint32_t *etm)

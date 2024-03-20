@@ -2,7 +2,7 @@ src_path = ./src
 exe_path = ~/
 exe_name = exe
 
-CC = gcc #aarch64-xilinx-linux-gcc
+CC = gcc
 CFLAGS = -g -Wall -Iinclude -lpthread -lstdc++ -O0 -o ${exe_path}${exe_name}
 
 all: source

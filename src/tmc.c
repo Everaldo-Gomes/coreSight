@@ -2,54 +2,30 @@
 #include "zcu.h"
 #include "common.h"
 
+
 void tmc_config(uint32_t *tmc[])
 {
 	tmc_unlock(tmc[0]);
-	tmc_unlock(tmc[1]);
+	tmc_unlock(tmc[1]); 
 	tmc_unlock(tmc[2]);
-
-	printf("disable 0\n");
-	tmc_disable(tmc[0]);
-
-	printf("disable 1\n");
-	tmc_disable(tmc[1]);
 	
-	printf("disable 2\n");
+	tmc_disable(tmc[0]);
+	printf("disable 0\n");
+	tmc_disable(tmc[1]);
+	printf("disable 1\n");
 	tmc_disable(tmc[2]);
-
+	printf("disable 2\n");
+	
 	tmc_set_mode(tmc[0], hardware);
 	tmc_set_mode(tmc[1], hardware);
 	tmc_set_mode(tmc[2], circular);
-
+	
 	tmc_set_axi(tmc[2], 0xF);
 	tmc_ram_set_size(tmc[2], BUFFER_SIZE);
 	tmc_set_data_buffer(tmc[2], OCM_BASE);
 	tmc_set_ram_read_ptr(tmc[2], OCM_BASE);
 	tmc_set_ram_write_ptr(tmc[2], OCM_BASE);
 
-	
-	tmc_formatter_flush_control(tmc[0], 0, 0x0);
-	/* tmc_formatter_flush_control(tmc[0], 5, 0x1); */
-	/* tmc_formatter_flush_control(tmc[0], 6, 0x1); */
-	/* tmc_formatter_flush_control(tmc[0], 12, 0x1); */
-	/* tmc_formatter_flush_control(tmc[0], 13, 0x0); */
-	/* tmc_formatter_flush_control(tmc[0], 14, 0x1); */
-	
-	tmc_formatter_flush_control(tmc[1], 0, 0x0);
-	/* tmc_formatter_flush_control(tmc[1], 5, 0x1); */
-	/* tmc_formatter_flush_control(tmc[1], 6, 0x1); */
-	/* tmc_formatter_flush_control(tmc[1], 12, 0x1); */
-	/* tmc_formatter_flush_control(tmc[1], 13, 0x0); */
-	/* tmc_formatter_flush_control(tmc[1], 14, 0x1); */
-
-	tmc_formatter_flush_control(tmc[2], 0, 0x0);
-	/* tmc_formatter_flush_control(tmc[2], 1, 0x1); */
-	/* tmc_formatter_flush_control(tmc[1], 6, 0x1); */
-	/* tmc_formatter_flush_control(tmc[2], 8, 0x1); */
-	/* tmc_formatter_flush_control(tmc[2], 9, 0x1); */
-	/* tmc_formatter_flush_control(tmc[2], 12, 0x1); */
-	/* tmc_formatter_flush_control(tmc[2], 14, 0x1); */
-	
 	tmc_enable(tmc[0]);
 	tmc_enable(tmc[1]);
 	tmc_enable(tmc[2]);
@@ -81,7 +57,7 @@ void tmc_is_ready(uint32_t *tmc)
 {
 	// status
 	volatile uint32_t *reg = get_register_addr(tmc, 0x00C);
-	while((*reg & (1 << 2)) == 0);
+	while((*reg & (1 << 2)) == 0){};
 }
 
 void tmc_set_mode(uint32_t *tmc, uint32_t mode)

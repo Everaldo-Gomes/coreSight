@@ -54,10 +54,6 @@ void dump_buffer(uint64_t buffer_addr, uint32_t buffer_size)
 	{
 		fprintf(trace_file, "0x%08X\n", *buffer_ptr);
 		fwrite((void *)buffer_ptr, sizeof(uint32_t), 1, trace_file_dat);
-
-		if (*buffer_ptr == 0xFFFFFFFF)
-			fprintf(trace_file, "\n");
-
 		buffer_ptr++;
 	}
 	

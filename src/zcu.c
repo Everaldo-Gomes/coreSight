@@ -24,6 +24,15 @@ uint32_t* register_component(enum component comp)
 	case etm_0_comp:
 		ptr = mmap(NULL, 0xD0000, PROT_READ | PROT_WRITE, MAP_SHARED, fd, CS_BASE + ETM_0);
 		break;
+	case etm_1_comp:
+		ptr = mmap(NULL, 0xD0000, PROT_READ | PROT_WRITE, MAP_SHARED, fd, CS_BASE + ETM_1);
+		break;
+	case etm_2_comp:
+		ptr = mmap(NULL, 0xD0000, PROT_READ | PROT_WRITE, MAP_SHARED, fd, CS_BASE + ETM_2);
+		break;
+	case etm_3_comp:
+		ptr = mmap(NULL, 0xD0000, PROT_READ | PROT_WRITE, MAP_SHARED, fd, CS_BASE + ETM_3);
+		break;
 	case funnel_1_comp:
 		ptr = mmap(NULL, 0x10000, PROT_READ | PROT_WRITE, MAP_SHARED, fd, CS_BASE + FUNNEL_1);
 		break;
