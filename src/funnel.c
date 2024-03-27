@@ -16,7 +16,7 @@ void funnel_unlock(uint32_t *funnel)
 {
 	// lock access
 	volatile uint32_t *reg = get_register_addr(funnel, 0xFB0);
-	*reg = 0xc5acce55;
+	*reg = 0xC5ACCE55;
 }
 
 void funnel_config_port(uint32_t *funnel, uint32_t port, uint32_t hold_time)

@@ -10,5 +10,5 @@ void replicator_unlock(uint32_t *replicator)
 {
 	// lock access
 	volatile uint32_t *reg = get_register_addr(replicator, 0xFB0);
-	*reg = 0xc5acce55;
+	*reg = 0xC5ACCE55;
 }
