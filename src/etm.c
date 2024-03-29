@@ -18,7 +18,8 @@ void etm_config(uint32_t *etm[])
 		etm_unlock(etm[i]);
 		etm_disable(etm[i]);
 		etm_is_ready(etm[i]);
-		etm_trace_config(etm[i], 0xFFFFFFFF);		
+		
+		etm_trace_config(etm[i], 0xFFFFFFFF);
 		etm_event_control_0(etm[i]);
 		etm_event_control_1(etm[i]);
 		etm_stall_control(etm[0], 0x0);
@@ -34,12 +35,13 @@ void etm_config(uint32_t *etm[])
 		etm_external_input_select(etm[i], 0x0);
 		etm_resource_selection_control(etm[i], 0x0000);
 		etm_address_comparator_value(etm[i], 0x0000);
-		etm_context_id_comparator_value(etm[i]);
+		
 		etm_context_id_tracing(etm[i]);
 		etm_set_stall(etm[i], 0x0);
-		etm_enable(etm[i]);
 	}
 }
+
+
 
 void etm_unlock(uint32_t *etm)
 {
@@ -168,13 +170,14 @@ void etm_address_comparator_value(uint32_t *etm, uint32_t value)
 	*reg = value;
 }
 
-void etm_context_id_comparator_value(uint32_t *etm)
+void etm_context_id_comparator_value(uint32_t *etm, uint64_t value)
 {
 	volatile uint32_t *reg = get_register_addr(etm, 0x600);
-	*reg = 0x0000;
+	*reg = value;
 
+	// control
 	reg = get_register_addr(etm, 0x640);
-	*reg = 0x0000;
+	*reg = 0x0;
 }
 
 void etm_context_id_tracing(uint32_t *etm)

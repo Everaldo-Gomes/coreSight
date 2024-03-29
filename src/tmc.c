@@ -6,50 +6,32 @@
 void tmc_config(uint32_t *tmc[])
 {	
 	tmc_unlock(tmc[0]);
-	tmc_disable(tmc[0]);
-	tmc_is_ready(tmc[0]);
-	tmc_set_mode(tmc[0], hardware);
-	tmc_formatter_flush_control(tmc[0], 0x0);
-	tmc_buffer_level_water_mark(tmc[0], 0x0);
-
-	/* tmc_ram_set_size(tmc[0], BUFFER_SIZE); */
-	/* tmc_set_data_buffer(tmc[0], OCM_BASE); */
-	/* tmc_set_ram_read_ptr(tmc[0], OCM_BASE); */
-	/* tmc_set_ram_write_ptr(tmc[0], OCM_BASE); */
-	
-	tmc_enable(tmc[0]);
-	
 	tmc_unlock(tmc[1]);
-	tmc_disable(tmc[1]);
-	tmc_is_ready(tmc[1]);
-	tmc_set_mode(tmc[1], hardware);
-	tmc_formatter_flush_control(tmc[1], 0x0);
-	tmc_buffer_level_water_mark(tmc[1], 0x0);
-	tmc_enable(tmc[1]);
-
-	
 	tmc_unlock(tmc[2]);
+
+	tmc_disable(tmc[0]);
+	tmc_disable(tmc[1]);
 	tmc_disable(tmc[2]);
-	tmc_is_ready(tmc[2]);
+
+	tmc_set_mode(tmc[0], hardware);
+	tmc_set_mode(tmc[1], hardware);
 	tmc_set_mode(tmc[2], circular);
-
-	/* uint32_t *reg = get_register_addr(tmc[2], 0x304); */
-	/* *reg |= 0x1 << 0; */
-	/* *reg |= 0x1 << 1; */
-	/* *reg |= 0x1 << 5; */
-	/* *reg |= 0x1 << 8; */
-	/* *reg |= 0x1 << 12; */
-
-	/* reg = get_register_addr(tmc[2], 0x1C); */
-	/* *reg = 0xFFFFFFFF; */
-    
-	tmc_formatter_flush_control(tmc[2], 0x0);
+	
 	tmc_set_axi(tmc[2], 0xF);
 	tmc_ram_set_size(tmc[2], BUFFER_SIZE);
 	tmc_set_data_buffer(tmc[2], OCM_BASE);
 	tmc_set_ram_read_ptr(tmc[2], OCM_BASE);
 	tmc_set_ram_write_ptr(tmc[2], OCM_BASE);
-	tmc_enable(tmc[2]);
+	
+	tmc_enable(tmc[0]);
+	tmc_enable(tmc[1]);
+	tmc_enable(tmc[2]);	
+
+	/* tmc_formatter_flush_control(tmc[1], 0x0); */
+	/* tmc_buffer_level_water_mark(tmc[1], 0x0);    */
+	/* tmc_formatter_flush_control(tmc[2], 0x0); */
+	/* tmc_formatter_flush_control(tmc[0], 0x0); */
+	/* tmc_buffer_level_water_mark(tmc[0], 0x0);	 */
 }
 
 void tmc_unlock(uint32_t *tmc)
@@ -78,6 +60,7 @@ void tmc_is_ready(uint32_t *tmc)
 	// status
 	volatile uint32_t *reg = get_register_addr(tmc, 0x00C);
 	while((*reg & (1 << 2)) == 0);
+	//2tcm_ready, 3 ftEMPTY
 }
 
 void tmc_set_mode(uint32_t *tmc, uint32_t mode)
@@ -92,6 +75,7 @@ void tmc_formatter_flush_control(uint32_t *tmc, uint32_t value)
 {
 	volatile uint32_t *reg = get_register_addr(tmc, 0x304);
 	*reg = value;
+	print_register_info(reg);
 }
 
 void tmc_buffer_level_water_mark(uint32_t *tmc, uint32_t value)
@@ -108,7 +92,6 @@ void tmc_set_trigger_counter(uint32_t* tmc)
 
 void tmc_set_axi(uint32_t *tmc, int burst_len)
 {
-	// AXI control
 	volatile uint32_t *reg = get_register_addr(tmc, 0x110);
 	*reg = 0x0;
 	*reg |= burst_len << 8;

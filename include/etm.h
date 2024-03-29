@@ -23,7 +23,7 @@ void etm_view_inst_start_stop_control(uint32_t *etm, uint32_t value);
 void etm_external_input_select(uint32_t *etm, uint32_t value);
 void etm_resource_selection_control(uint32_t *etm, uint32_t value);
 void etm_address_comparator_value(uint32_t *etm, uint32_t value);
-void etm_context_id_comparator_value(uint32_t *etm);
+void etm_context_id_comparator_value(uint32_t *etm, uint64_t value);
 void etm_context_id_tracing(uint32_t *etm);
 void view_data_main_control(uint32_t *etm, uint32_t value);
 void view_data_include_exclude_single_address_comparator_control(uint32_t *etm, uint32_t value);
